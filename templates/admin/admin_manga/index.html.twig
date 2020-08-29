@@ -1,0 +1,39 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Gérer les mangas{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Gérer les mangas</h1>
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+        <table class="table table-striped">
+            <thead>
+                <th>Titre</th>
+                <th>Actions</th>
+            </thead>
+            <tbody>
+                {% for manga in mangas %}
+                    <tr>
+                        <td>{{ manga.title }}</td>
+                        <td>
+                            <a href="{{ path('admin_mangas_edit', {'title_slug':manga.titleSlug, 'id':manga.id}) }}" class="btn btn-secondary">Éditer</a>
+                            <form method="post" action="{{ path('admin_mangas_delete', {'title_slug': manga.titleSlug, 'id': manga.id}) }}" style="display: inline-block" onsubmit="return confirm('Confirmez vous la suppression?')">
+                                <input type="hidden" name="_method" value="DELETE">
+                                <input type="hidden" name="_token" value="{{ csrf_token('delete'~manga.id) }}">
+                                <button class="btn btn-danger">Supprimer</button>
+                            </form>
+
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        <div class="text-right">
+            <a href="{{ path('admin_mangas_add') }}" class="btn btn-primary">Ajouter un nouveau manga</a>
+        </div>
+    </div>
+{% endblock %}

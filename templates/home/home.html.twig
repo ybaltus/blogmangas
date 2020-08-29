@@ -10,7 +10,7 @@
             {% for manga in lastMangas %}
                 <div class="col-md-3 col-sm-6 col-xs-12 text-center">
                     <div class="card" style="width: 18rem;">
-                        <img src="#" class="card-img-top" alt="one_piece">
+                        <img src="#" class="card-img-top" alt="{{ manga.titleSlug }}">
                         <div class="card-body">
                             <h5 class="card-title">{{ manga.title }}</h5>
                             <h6 class="card-subtitle mb-2 text-muted">{{ manga.typeName|capitalize }} - {{ manga.year }}</h6>

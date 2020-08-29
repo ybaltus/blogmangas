@@ -5,7 +5,6 @@ namespace App\Entity;
 use App\Repository\MangaRepository;
 use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
-use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -16,7 +15,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Manga
 {
-    const typeManga = [
+    const TYPEMANGA = [
         1 => 'shonen',
         2 => 'seinen',
         3 => 'josei',
@@ -87,8 +86,7 @@ class Manga
     private $updated_at;
 
     /**
-     * @ORM\Column(type="string", length=255)
-     * @Assert\Unique(message="Ce titre existe déjà")
+     * @ORM\Column(type="string", length=255, unique=true)
      */
     private $title_slug;
 
@@ -128,6 +126,8 @@ class Manga
     public function setTitle(string $title): self
     {
         $this->title = $title;
+        $slugify = new Slugify();
+        $this->setTitleSlug($slugify->slugify($this->title));
 
         return $this;
     }
@@ -151,15 +151,12 @@ class Manga
 
     public function getTypeName():string
     {
-        return self::typeManga[$this->type];
+        return self::TYPEMANGA[$this->type];
     }
 
     public function setType(int $type): self
     {
         $this->type = $type;
-        $slugify = new Slugify();
-        $this->setTitleSlug($slugify->slugify($this->title));
-
         return $this;
     }
 

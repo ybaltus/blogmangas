@@ -39,7 +39,7 @@ class Anime
     private $max_season;
 
     /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Manga", inversedBy="mangas")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Manga", inversedBy="animes")
      * @ORM\JoinColumn(name="manga_id", referencedColumnName="id")
      */
     private $manga;

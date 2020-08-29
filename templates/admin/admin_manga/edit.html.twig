@@ -1,0 +1,10 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Éditer un manga: {{ manga.title }}{% endblock %}
+
+{% block body %}
+    <div class="container">
+        <h1>Éditer un manga: {{ manga.title }}</h1>
+        {{ include('admin/admin_manga/_forms.html.twig') }}
+    </div>
+{% endblock %}
