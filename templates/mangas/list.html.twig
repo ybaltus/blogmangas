@@ -4,6 +4,43 @@
 
 {% block body %}
 <div class="container">
-
+    <div class="row">
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <h2>Mangas non terminés</h2>
+            {% if mNotComplete is defined and mNotComplete|length > 0 %}
+                {% for manga in mNotComplete %}
+                    <div class="list-group">
+                        <a href="{{ path("mangas_view", {'title_slug':manga.titleSlug, 'id':manga.id}) }}" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">{{ manga.title }}</h5>
+                                <small>{{ manga.typeName|capitalize }}</small>
+                            </div>
+                            <p class="mb-1">Crée en {{ manga.year }} par {{ manga.author }}</p>
+                        </a>
+                    </div>
+                {% endfor %}
+            {% else %}
+                Aucun mangas.
+            {% endif %}
+        </div>
+        <div class="col-md-6 col-sm-6 col-xs-12">
+            <h2>Mangas terminés</h2>
+            {% if mComplete is defined and mComplete|length > 0 %}
+                {% for manga in mComplete %}
+                    <div class="list-group">
+                        <a href="{{ path("mangas_view", {'title_slug':manga.titleSlug, 'id':manga.id}) }}" class="list-group-item list-group-item-action">
+                            <div class="d-flex w-100 justify-content-between">
+                                <h5 class="mb-1">{{ manga.title }}</h5>
+                                <small>{{ manga.typeName|capitalize }}</small>
+                                <p class="mb-1">Crée en {{ manga.year }} par {{ manga.author }}</p>
+                            </div>
+                        </a>
+                    </div>
+                {% endfor %}
+            {% else %}
+                Aucun mangas.
+            {% endif %}
+        </div>
+    </div>
 </div>
 {% endblock %}

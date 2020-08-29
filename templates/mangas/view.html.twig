@@ -1,0 +1,69 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Manga: {{ manga.title }}{% endblock %}
+
+{% block body %}
+    <div class="jumbotron jumbotron-fluid text-right">
+        <div class="container">
+            <h1 class="display-4">{{manga.title}}</h1>
+            <h6 class="text-muted">{{ manga.typeName|capitalize }} - {{ manga.year }}</h6>
+            <p>{{ manga.author }}</p>
+            <p>{{ manga.country }}</p>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <h2>Description: </h2>
+            <p class="text-justify">{{ manga.description }}</p>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <h3>Épisodes</h3>
+                <table class="table table-dark table-sm">
+                    <tbody>
+                    <tr>
+                        <th scope="row">Vus</th>
+                        <td>Saison 21</td>
+                        <td>938</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Max</th>
+                        <td>Saison 21</td>
+                        <td>939</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <h3>Chapitres</h3>
+                <table class="table table-dark table-sm">
+                    <tbody>
+                    <tr>
+                        <th scope="row">Lu</th>
+                        <td>988</td>
+                    </tr>
+                    <tr>
+                        <th scope="row">Max</th>
+                        <td>988</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <div class="row">
+            <figure class="col-md-3 col-sm-6 col-xs-12 figure">
+                <img src="..." class="figure-img img-fluid rounded" alt="...">
+                <figcaption class="figure-caption text-right">Photo 1</figcaption>
+            </figure>
+            <figure class="col-md-3 col-sm-6 col-xs-12 figure">
+                <img src="..." class="figure-img img-fluid rounded" alt="...">
+                <figcaption class="figure-caption text-right">Photo 2</figcaption>
+            </figure>
+            <figure class="col-md-3 col-sm-6 col-xs-12 figure">
+                <img src="..." class="figure-img img-fluid rounded" alt="...">
+                <figcaption class="figure-caption text-right">Photo 3</figcaption>
+            </figure>
+        </div>
+    </div>
+{% endblock %}
