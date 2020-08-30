@@ -7,6 +7,7 @@ use App\Form\MangaType;
 use App\Repository\MangaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -64,6 +65,8 @@ class AdminMangaController extends AbstractController
 
     /**
      * @Route("/admin_mangas/add", name="admin_mangas_add")
+     * @param Request $request
+     * @return RedirectResponse|Response
      */
     public function add(Request $request)
     {

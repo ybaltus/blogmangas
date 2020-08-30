@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\AnimeRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=AnimeRepository::class)
@@ -31,16 +32,13 @@ class Anime
     /**
      * @ORM\Column(type="integer")
      */
-    private $current_season;
+    private $season;
+
 
     /**
-     * @ORM\Column(type="integer")
-     */
-    private $max_season;
-
-    /**
-     * @ORM\ManyToOne(targetEntity="App\Entity\Manga", inversedBy="animes")
-     * @ORM\JoinColumn(name="manga_id", referencedColumnName="id")
+     * @ORM\ManyToOne(targetEntity="App\Entity\Manga", inversedBy="animes", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="manga_id", referencedColumnName="id", nullable=false)
+     * @Assert\Type(type="App\Entity\Manga")
      */
     private $manga;
 
@@ -73,30 +71,19 @@ class Anime
         return $this;
     }
 
-    public function getCurrentSeason(): ?int
+    public function getSeason(): ?int
     {
-        return $this->current_season;
+        return $this->season;
     }
 
-    public function setCurrentSeason(int $current_season): self
+    public function setSeason(int $season): self
     {
-        $this->current_season = $current_season;
+        $this->season = $season;
 
         return $this;
     }
 
-    public function getMaxSeason(): ?int
-    {
-        return $this->max_season;
-    }
-
-    public function setMaxSeason(int $max_season): self
-    {
-        $this->max_season = $max_season;
-        return $this;
-    }
-
-    public function getManga(): ?Manga
+    public function getManga(): Manga
     {
         return $this->manga;
     }

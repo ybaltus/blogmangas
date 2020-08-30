@@ -13,4 +13,40 @@
     <div class="col-md-2">{{ form_row(form.exist_scan) }}</div>
     <div class="col-md-2">{{ form_row(form.complete) }}</div>
 </div>
+<div class="row" id="div_scans">
+    {{ form_label(form.scans) }}
+    <div class="col-md-12 form-inline">
+        <div class="col-md-6 form-group">
+            {{ form_label(form.scans.current_chapter) }}
+            {{ form_widget(form.scans.current_chapter) }}
+        </div>
+        <div class="col-md-6 form-group">
+            {{ form_label(form.scans.max_chapter) }}
+            {{ form_widget(form.scans.max_chapter) }}
+        </div>
+    </div>
+</div>
+<div class="row" id="div_animes" {% if manga.existEpisode == false%}hidden{% endif %}>
+    {{ form_label(form.animes) }}
+    <div class="animes_current form-inline">
+        {% for anime in form.animes %}
+                <div class="form-group col-md-4">
+                    {{ form_label(anime.current_episode) }}
+                    {{ form_widget(anime.current_episode, {'attr' :{'class': 'col-md-6'}}) }}
+                </div>
+                <div class="form-group col-md-4">
+                    {{ form_label(anime.max_episode) }}
+                    {{ form_widget(anime.max_episode, {'attr' :{'class': 'col-md-6'}}) }}
+                </div>
+                <div class="form-group col-md-4">
+                    {{ form_label(anime.season) }}
+                    {{ form_widget(anime.season, {'attr' :{'class': 'col-md-6'}}) }}
+                </div>
+        {% endfor %}
+    </div>
+    <div class="animes_add" data-prototype="{{ form_widget(form.animes.vars.prototype)|e('html_attr') }}"></div>
+</div>
 {{ form_end(form) }}
+
+{# Script form_manga.js #}
+{{ encore_entry_script_tags('form_manga') }}

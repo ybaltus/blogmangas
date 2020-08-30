@@ -4,6 +4,7 @@ namespace App\Entity;
 
 use App\Repository\ScansRepository;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=ScansRepository::class)
@@ -19,16 +20,20 @@ class Scans
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank
      */
     private $current_chapter;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\NotBlank
      */
     private $max_chapter;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Manga", inversedBy="scans")
+     * @ORM\OneToOne(targetEntity="App\Entity\Manga", inversedBy="scans", cascade={"persist", "remove"})
+     * @ORM\JoinColumn(name="manga_id", referencedColumnName="id", nullable=false)
+     * @Assert\Type(type="App\Entity\Manga")
      */
     private $manga;
 
@@ -62,7 +67,7 @@ class Scans
     }
 
 
-    public function getManga(): ?Manga
+    public function getManga(): Manga
     {
         return $this->manga;
     }

@@ -5,6 +5,7 @@ namespace App\Form;
 use App\Entity\Manga;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
@@ -26,6 +27,16 @@ class MangaType extends AbstractType
             ->add('exist_episode')
             ->add('exist_scan')
             ->add('complete')
+            ->add('scans', ScansType::class)
+            ->add('animes', CollectionType::class, array(
+                'entry_type' => AnimeType::class,
+                'entry_options'=>array(
+                    'label' => false
+                ),
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false,
+            ))
             ->add('submit', SubmitType::class, array(
                 'label' => 'Save',
                 'attr' => array(

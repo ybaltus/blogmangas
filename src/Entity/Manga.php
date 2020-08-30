@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\MangaRepository;
 use Cocur\Slugify\Slugify;
 use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
@@ -32,6 +33,7 @@ class Manga
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $title;
 
@@ -52,16 +54,19 @@ class Manga
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $author;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $city;
 
     /**
      * @ORM\Column(type="string", length=255)
+     * @Assert\NotBlank
      */
     private $country;
 
@@ -96,14 +101,12 @@ class Manga
     private $complete=false;
 
     /**
-     * @var
-     * @ORM\OneToMany(targetEntity="App\Entity\Anime", mappedBy="manga")
+     * @ORM\OneToMany(targetEntity="App\Entity\Anime", mappedBy="manga", cascade={"persist", "remove"})
      */
     private $animes;
 
     /**
-     * @ORM\OneToOne(targetEntity="App\Entity\Scans", mappedBy="manga")
-     * @ORM\JoinColumn(name="manga_id", referencedColumnName="id")
+     * @ORM\OneToOne(targetEntity="App\Entity\Scans", mappedBy="manga", cascade={"persist", "remove"})
      */
     private $scans;
 
@@ -280,20 +283,21 @@ class Manga
         return $this;
     }
 
-    public function getAnimes(): ?ArrayCollection
+    public function getAnimes(): ?Collection
     {
         return $this->animes;
     }
 
     public function addAnime(Anime $anime): self
     {
+        $anime->setManga($this);
         $this->animes->add($anime);
         return $this;
     }
 
     public function removeAnime(Anime $anime):   self
     {
-        $this->animes->remove($anime);
+        $this->animes->removeElement($anime);
         return $this;
     }
 
@@ -305,6 +309,7 @@ class Manga
     public function setScans(Scans $scans): self
     {
         $this->scans = $scans;
+        $this->scans->setManga($this);
         return $this;
     }
 }

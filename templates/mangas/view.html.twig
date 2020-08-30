@@ -20,16 +20,28 @@
             <div class="col-md-6 col-sm-6 col-xs-12">
                 <h3>Épisodes</h3>
                 <table class="table table-dark table-sm">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        {% if manga.animes|length >0  %}
+                            {% for anime in manga.animes %}
+                                <th scope="col">Saison {{ anime.season }}</th>
+                            {% endfor %}
+                        {% else %}
+                            <th scope="col">Aucune saison</th>
+                        {% endif %}
+                    </tr>
+                    </thead>
                     <tbody>
                     <tr>
-                        <th scope="row">Vus</th>
-                        <td>Saison 21</td>
-                        <td>938</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Max</th>
-                        <td>Saison 21</td>
-                        <td>939</td>
+                        <th scope="row">Épisodes</th>
+                        {% if manga.animes|length > 0 %}
+                            {% for anime in manga.animes %}
+                                <td>{{ anime.currentEpisode }} / {{ anime.maxEpisode }}</td>
+                            {% endfor %}
+                        {% else %}
+                            <td>Aucun épidode</td>
+                        {% endif %}
                     </tr>
                     </tbody>
                 </table>
@@ -39,12 +51,12 @@
                 <table class="table table-dark table-sm">
                     <tbody>
                     <tr>
-                        <th scope="row">Lu</th>
-                        <td>988</td>
-                    </tr>
-                    <tr>
-                        <th scope="row">Max</th>
-                        <td>988</td>
+                        <th scope="row">Chapitres</th>
+                        {% if manga.scans %}
+                            <td>{{ manga.scans.currentChapter }} / {{ manga.scans.maxChapter }}</td>
+                        {% else %}
+                            <td>Aucun</td>
+                        {% endif %}
                     </tr>
                     </tbody>
                 </table>
