@@ -21,16 +21,19 @@ class Anime
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\PositiveOrZero
      */
     private $current_episode;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\PositiveOrZero
      */
     private $max_episode;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\PositiveOrZero
      */
     private $season;
 

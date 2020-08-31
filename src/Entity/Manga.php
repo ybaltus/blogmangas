@@ -12,7 +12,10 @@ use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * @ORM\Entity(repositoryClass=MangaRepository::class)
- * @UniqueEntity("title_slug")
+ * @UniqueEntity(
+ *     fields={"title_slug"},
+ *     message="Ce titre existe déjà."
+ *     )
  */
 class Manga
 {
@@ -44,11 +47,17 @@ class Manga
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\GreaterThan(0)
      */
     private $type;
 
     /**
      * @ORM\Column(type="integer")
+     * @Assert\PositiveOrZero
+     * @Assert\Regex(
+     *     pattern="/^[0-9]{4}/",
+     *     message="L'année doit être composée de 4 chiffres."
+     * )
      */
     private $year;
 

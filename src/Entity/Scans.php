@@ -21,12 +21,14 @@ class Scans
     /**
      * @ORM\Column(type="integer")
      * @Assert\NotBlank
+     * @Assert\PositiveOrZero
      */
     private $current_chapter;
 
     /**
      * @ORM\Column(type="integer")
      * @Assert\NotBlank
+     * @Assert\PositiveOrZero
      */
     private $max_chapter;
 
