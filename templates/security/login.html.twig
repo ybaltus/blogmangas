@@ -1,0 +1,27 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Authentification{% endblock %}
+
+{% block body %}
+    <div class="container">
+        {% if error %}
+            <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
+        {% endif %}
+    <div class="row justify-content-center">
+        <form action="{{ path('login') }}" method="post">
+            <input type="hidden" name="_csrf_token" value="{{ csrf_token('authenticate') }}"/>
+            <div class="form-group">
+                <label for="username">Nom d'utilisateur:</label>
+                <input class="form-control" type="text" id="username" name="_username" value="{{ lastUsername }}"/>
+            </div>
+            <div class="form-group">
+                <label for="password">Mot de passe:</label>
+                <input type="password" id="password" name="_password"/>
+            </div>
+            <input type="hidden" name="_target_path" value="{{ path('admin_mangas_index') }}"/>
+            <button class="btn btn-primary" type="submit">Se connecter</button>
+        </form>
+    </div>
+
+    </div>
+{% endblock %}
