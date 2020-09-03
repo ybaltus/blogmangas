@@ -1,0 +1,34 @@
+
+{% for manga in mangas %}
+    <div class="col-md-4">
+
+        <div class="card">
+            <img class="card-img-top" src="..." alt="{{ manga.titleSlug }}">
+            <div class="card-body">
+                <h5 class="card-title">{{ manga.title }} - {{ manga.typeName|capitalize }}</h5>
+                <p class="card-text">Crée en {{ manga.year }} par {{ manga.author }}</p>
+                {% if manga.animes|length > 0 %}
+                    <div class="mb-1">
+                        <h6 class="font-weight-bold">Les épisodes: </h6>
+                        {% for anime in manga.animes %}
+                            <p>- Saison {{ anime.season }} : {{ anime.currentEpisode }}/{{ anime.maxEpisode }}</p>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <p>Pas d'épisodes.</p>
+                {% endif %}
+                {% if manga.scans %}
+                    <div class="mb-1">
+                        <h6 class="font-weight-bold">Les chapitres:</h6>
+                        <p>{{ manga.scans.currentChapter }}/{{ manga.scans.maxChapter}}</p>
+                    </div>
+                {% else %}
+                    <p>Pas de scans.</p>
+                {% endif %}
+                <a href="{{ path("mangas_view", {'title_slug':manga.titleSlug, 'id':manga.id}) }}" class="btn btn-primary">Voir</a>
+            </div>
+        </div>
+
+    </div>
+{% endfor %}
+

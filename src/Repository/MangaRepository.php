@@ -4,6 +4,7 @@ namespace App\Repository;
 
 use App\Entity\Manga;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 
@@ -32,6 +33,16 @@ class MangaRepository extends ServiceEntityRepository
     }
 
     /**
+     * @return Query
+     */
+    public function findAllNotCompletedQuery():Query
+    {
+        return $this->findNotCompletedQuery()
+            ->getQuery()
+            ;
+    }
+
+    /**
      * @return Manga[]
      */
     public function findCompleted():array
@@ -39,6 +50,16 @@ class MangaRepository extends ServiceEntityRepository
         return $this->findCompletedQuery()
             ->getQuery()
             ->getResult()
+            ;
+    }
+
+    /**
+     * @return Query
+     */
+    public function findAllCompletedQuery():Query
+    {
+        return $this->findCompletedQuery()
+            ->getQuery()
             ;
     }
 

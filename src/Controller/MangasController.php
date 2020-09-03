@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\Manga;
 use App\Repository\MangaRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use Knp\Component\Pager\PaginatorInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
 class MangasController extends AbstractController
@@ -23,14 +25,16 @@ class MangasController extends AbstractController
         $this->em = $em;
     }
 
-    public function list()
+    public function list(PaginatorInterface $paginator, Request $request)
     {
-        $listNotComplete = $this->repository->findNotCompleted();
-        $listComplete = $this->repository->findCompleted();
+        $mangas = $paginator->paginate(
+            $this->repository->findAllNotCompletedQuery(),
+            $request->query->getInt('page', 1),
+            10
+        );
 
         return $this->render('mangas/list.html.twig', array(
-            "mNotComplete" => $listNotComplete,
-            "mComplete" => $listComplete
+            "mangas" => $mangas
         ));
     }
 
