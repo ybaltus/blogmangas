@@ -3,6 +3,7 @@
 namespace App\Repository;
 
 use App\Entity\Manga;
+use App\Entity\MangaSearch;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\Query;
 use Doctrine\ORM\QueryBuilder;
@@ -40,6 +41,37 @@ class MangaRepository extends ServiceEntityRepository
         return $this->findNotCompletedQuery()
             ->getQuery()
             ;
+    }
+
+    public function filterQuery(MangaSearch $search):Query
+    {
+        $query = $this->createQueryBuilder('m');
+
+        if($search->getMinYear())
+        {
+            $query =  $query
+                ->andWhere('m.year >= :minYear')
+                ->setParameter('minYear', $search->getMinYear());
+        }
+        if($search->getMaxYear())
+        {
+            $query =  $query
+                ->andWhere('m.year <= :maxYear')
+                ->setParameter('maxYear', $search->getMaxYear());
+        }
+
+        if($search->getType())
+        {
+            $query =  $query
+                ->andWhere('m.type = :mangaType')
+                ->setParameter('mangaType', $search->getType());
+        }
+
+        $query->andWhere('m.complete = :isComplete')
+            ->orderBy('m.created_at', 'ASC')
+            ->setParameter('isComplete', $search->isComplete());
+
+        return $query->getQuery();
     }
 
     /**

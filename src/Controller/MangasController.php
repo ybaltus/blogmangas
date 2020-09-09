@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Manga;
+use App\Entity\MangaSearch;
+use App\Form\MangaSearchType;
 use App\Repository\MangaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -27,14 +29,21 @@ class MangasController extends AbstractController
 
     public function list(PaginatorInterface $paginator, Request $request)
     {
-        $mangas = $paginator->paginate(
-            $this->repository->findAllNotCompletedQuery(),
+        //Filter
+        $search = new MangaSearch();
+        $form = $this->createForm(MangaSearchType::class, $search);
+        $form->handleRequest($request);
+
+        //Paging
+            $mangas = $paginator->paginate(
+            $this->repository->filterQuery($search),
             $request->query->getInt('page', 1),
             10
         );
 
         return $this->render('mangas/list.html.twig', array(
-            "mangas" => $mangas
+            "mangas" => $mangas,
+            'form' => $form->createView()
         ));
     }
 
