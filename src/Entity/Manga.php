@@ -119,10 +119,16 @@ class Manga
      */
     private $scans;
 
+    /**
+     * @ORM\ManyToMany(targetEntity=Options::class, inversedBy="mangas")
+     */
+    private $options;
+
     public function __construct()
     {
         $this->created_at = new \DateTime('now');
         $this->animes = new ArrayCollection();
+        $this->options = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -319,6 +325,34 @@ class Manga
     {
         $this->scans = $scans;
         $this->scans->setManga($this);
+        return $this;
+    }
+
+    /**
+     * @return Collection|Options[]
+     */
+    public function getOptions(): Collection
+    {
+        return $this->options;
+    }
+
+    public function addOption(Options $option): self
+    {
+        if (!$this->options->contains($option)) {
+            $this->options[] = $option;
+            $option->addName($this);
+        }
+
+        return $this;
+    }
+
+    public function removeOption(Options $option): self
+    {
+        if ($this->options->contains($option)) {
+            $this->options->removeElement($option);
+            $option->removeName($this);
+        }
+
         return $this;
     }
 }

@@ -3,6 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Manga;
+use App\Entity\Options;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
@@ -42,6 +44,11 @@ class MangaType extends AbstractType
                 'attr' => array(
                     'class' => 'btn btn-primary'
                 )
+            ))
+            ->add('options', EntityType::class, array(
+                'class' => Options::class,
+                'choice_label' => 'name',
+                'multiple' => true
             ))
         ;
     }

@@ -67,6 +67,18 @@ class MangaRepository extends ServiceEntityRepository
                 ->setParameter('mangaType', $search->getType());
         }
 
+        if($search->getOptions()->count() > 0)
+        {
+            $key = 0;
+            foreach ($search->getOptions() as  $option)
+            {
+                $key++;
+                $query = $query
+                    ->andWhere(":option$key MEMBER OF m.options")
+                    ->setParameter("option$key", $option)
+                    ;
+            }
+        }
         $query->andWhere('m.complete = :isComplete')
             ->orderBy('m.created_at', 'ASC')
             ->setParameter('isComplete', $search->isComplete());

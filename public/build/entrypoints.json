@@ -3,20 +3,28 @@
     "app": {
       "js": [
         "/build/runtime.js",
-        "/build/vendors~app~form_manga.js",
+        "/build/vendors~app~form_manga~select2.js",
         "/build/vendors~app.js",
         "/build/app.js"
       ],
       "css": [
+        "/build/vendors~app.css",
         "/build/app.css"
       ]
     },
     "form_manga": {
       "js": [
         "/build/runtime.js",
-        "/build/vendors~app~form_manga.js",
+        "/build/vendors~app~form_manga~select2.js",
         "/build/vendors~form_manga.js",
         "/build/form_manga.js"
+      ]
+    },
+    "select2": {
+      "js": [
+        "/build/runtime.js",
+        "/build/vendors~app~form_manga~select2.js",
+        "/build/select2.js"
       ]
     }
   }

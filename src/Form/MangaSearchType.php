@@ -4,6 +4,8 @@ namespace App\Form;
 
 use App\Entity\Manga;
 use App\Entity\MangaSearch;
+use App\Entity\Options;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\CheckboxType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -45,6 +47,12 @@ class MangaSearchType extends AbstractType
             ->add('complete', CheckboxType::class, array(
                 'label' =>'Complété ?',
                 'required' => false
+            ))
+            ->add('options', EntityType::class, array(
+                'required' => false,
+                'class' => Options::class,
+                'choice_label' => 'name',
+                'multiple' =>true
             ))
             ->add('submit', SubmitType::class, array(
                 'label' => "Filtrer",

@@ -19,6 +19,7 @@
     "dependencies": {
         "less-loader": "^7.0.0",
         "node-sass": "^4.14.1",
-        "sass-loader": "^10.0.1"
+        "sass-loader": "^10.0.1",
+        "select2": "^4.0.13"
     }
 }

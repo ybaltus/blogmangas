@@ -1,0 +1,10 @@
+{{ form_start(form) }}
+{{ form_errors(form) }}
+<div class="row">
+    <div class="col-md-6">{{ form_row(form.name) }}</div>
+</div>
+
+{{ form_end(form) }}
+
+{# Script form_manga.js #}
+{{ encore_entry_script_tags('form_manga') }}
