@@ -9,6 +9,9 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Validator\Constraints as Assert;
+use Symfony\Component\HttpFoundation\File\File;
+use Vich\UploaderBundle\Mapping\Annotation as Vich;
+
 
 /**
  * @ORM\Entity(repositoryClass=MangaRepository::class)
@@ -16,6 +19,7 @@ use Symfony\Component\Validator\Constraints as Assert;
  *     fields={"title_slug"},
  *     message="Ce titre existe déjà."
  *     )
+ * @Vich\Uploadable
  */
 class Manga
 {
@@ -33,6 +37,22 @@ class Manga
      * @ORM\Column(type="integer")
      */
     private $id;
+
+    /**
+     *
+     * @var string|null
+     * @ORM\Column(type="string", length=255)
+     */
+    private $fileName;
+
+    /**
+     * @var File|null
+     * @Vich\UploadableField(mapping="manga_image", fileNameProperty="fileName")
+     * @Assert\Image(
+     *  mimeTypes="image/jpeg"
+     * )
+     */
+    private $imageFile;
 
     /**
      * @ORM\Column(type="string", length=255)
@@ -355,4 +375,40 @@ class Manga
 
         return $this;
     }
+
+    /**
+     * @return string|null
+     */
+    public function getFileName(): ?string
+    {
+        return $this->fileName;
+    }
+
+    /**
+     * @param string|null $fileName
+     */
+    public function setFileName(?string $fileName): void
+    {
+        $this->fileName = $fileName;
+    }
+
+    /**
+     * @return File
+     */
+    public function getImageFile(): ?File
+    {
+        return $this->imageFile;
+    }
+
+    /**
+     * @param File $imageFile
+     */
+    public function setImageFile(File $imageFile): void
+    {
+        $this->imageFile = $imageFile;
+
+        if($imageFile !== null)
+            $this->updated_at = new \DateTime('now');
+    }
+
 }

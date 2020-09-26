@@ -3,12 +3,28 @@
 {% block title %}Manga: {{ manga.title }}{% endblock %}
 
 {% block body %}
-    <div class="jumbotron jumbotron-fluid text-right">
+    <div class="jumbotron jumbotron-fluid">
         <div class="container">
-            <h1 class="display-4">{{manga.title}}</h1>
-            <h6 class="text-muted">{{ manga.typeName|capitalize }} - {{ manga.year }}</h6>
-            <p>{{ manga.author }}</p>
-            <p>{{ manga.country }}</p>
+            <div class="row">
+                <div class="col-8">
+                    {% if manga.fileName %}
+                        <img src="{{ vich_uploader_asset(manga, 'imageFile') | imagine_filter('mangas_thumb')}}" class="card-img-top" alt="{{ manga.titleSlug }}">
+                    {% else %}
+                        <img src="{{ 'images/mangas/empty.jpg' | imagine_filter('mangas_thumb')}}" class="card-img-top" alt="{{ manga.titleSlug }}">
+                    {% endif %}
+                </div>
+                <div class="col-4">
+                    <h1 class="display-4">{{manga.title}}</h1>
+                    <h6 class="text-muted">{{ manga.typeName|capitalize }} - {{ manga.year }}</h6>
+                    {% if manga.options %}
+                        {% for key,option in manga.options %}
+                            <h5 class="badge badge-secondary">{{ option.name }}</h5>
+                        {% endfor %}
+                    {% endif %}
+                    <p>Auteur: {{ manga.author }}</p>
+                    <p>Pays: {{ manga.country }}</p>
+                </div>
+            </div>
         </div>
     </div>
     <div class="container">
