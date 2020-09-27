@@ -2,9 +2,12 @@
 
 namespace App\Controller;
 
+use App\Entity\Contact;
 use App\Entity\Manga;
 use App\Entity\MangaSearch;
+use App\Form\ContactType;
 use App\Form\MangaSearchType;
+use App\Notification\ContactNotification;
 use App\Repository\MangaRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Knp\Component\Pager\PaginatorInterface;
@@ -47,7 +50,7 @@ class MangasController extends AbstractController
         ));
     }
 
-    public function view(Manga $manga, $title_slug)
+    public function view(Request $request, Manga $manga, $title_slug, ContactNotification $notification)
     {
         if($manga->getTitleSlug() !== $title_slug)
         {
@@ -56,8 +59,26 @@ class MangasController extends AbstractController
                 'title_slug'=>$manga->getTitleSlug()
             ), 301);
         }
+
+        $contact = new Contact();
+        $contact->setManga($manga);
+        $form = $this->createForm(ContactType::class, $contact);
+        $form->handleRequest($request);
+
+        if($form->isSubmitted() && $form->isValid())
+        {
+            $notification->notify($contact);
+            $this->addFlash('success', 'Votre message a bien été envoyé.');
+
+            return $this->redirectToRoute('mangas_view', array(
+                'id'=>$manga->getId(),
+                'title_slug' => $manga->getTitleSlug()
+            ));
+        }
+
         return $this->render('mangas/view.html.twig', array(
-            'manga' => $manga
+            'manga' => $manga,
+            'form'=> $form->createView()
         ));
     }
 

@@ -5,6 +5,16 @@
 {% block body %}
     <div class="jumbotron jumbotron-fluid">
         <div class="container">
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            {% if not form.vars.valid %}
+                <div class="alert alert-error">
+                    Erreur dans les saisies du formulaire de contact.
+                </div>
+            {% endif %}
             <div class="row">
                 <div class="col-8">
                     {% if manga.fileName %}
@@ -23,6 +33,23 @@
                     {% endif %}
                     <p>Auteur: {{ manga.author }}</p>
                     <p>Pays: {{ manga.country }}</p>
+                    <a href="#" class="btn btn-primary" id="contactBtn">Contacter</a>
+                    <div id="contactForm" class="mt-4" hidden>
+                        {{ form_start(form) }}
+                        <div class="row">
+                            <div class="col">{{ form_row(form.firstname) }}</div>
+                            <div class="col">{{ form_row(form.lastname) }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col">{{ form_row(form.phone) }}</div>
+                            <div class="col">{{ form_row(form.email) }}</div>
+                        </div>
+                        {{ form_rest(form) }}
+                        <div class="row">
+                            <div class="form-group">{{ form_widget(form.submit) }}</div>
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
                 </div>
             </div>
         </div>
@@ -81,17 +108,22 @@
         </div>
         <div class="row">
             <figure class="col-md-3 col-sm-6 col-xs-12 figure">
-                <img src="..." class="figure-img img-fluid rounded" alt="...">
+                <img src="#" class="figure-img img-fluid rounded" alt="...">
                 <figcaption class="figure-caption text-right">Photo 1</figcaption>
             </figure>
             <figure class="col-md-3 col-sm-6 col-xs-12 figure">
-                <img src="..." class="figure-img img-fluid rounded" alt="...">
+                <img src="#" class="figure-img img-fluid rounded" alt="...">
                 <figcaption class="figure-caption text-right">Photo 2</figcaption>
             </figure>
             <figure class="col-md-3 col-sm-6 col-xs-12 figure">
-                <img src="..." class="figure-img img-fluid rounded" alt="...">
+                <img src="#" class="figure-img img-fluid rounded" alt="...">
                 <figcaption class="figure-caption text-right">Photo 3</figcaption>
             </figure>
         </div>
     </div>
+{% endblock %}
+
+{% block javascripts_additionals %}
+    {# Script fmanga.js #}
+    {{ encore_entry_script_tags('manga') }}
 {% endblock %}
