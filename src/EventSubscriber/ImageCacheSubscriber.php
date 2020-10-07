@@ -2,6 +2,7 @@
 
 namespace App\EventSubscriber;
 
+use App\Entity\ImagesManga;
 use App\Entity\Manga;
 use Doctrine\Common\EventSubscriber;
 use Doctrine\ORM\Event\LifecycleEventArgs;
@@ -37,25 +38,33 @@ class ImageCacheSubscriber implements EventSubscriber
         ];
     }
 
-    public function preRemove(LifecycleEventArgs $args)
+    public function preRemove(LifecycleEventArgs $args )
     {
-        if(!$args->getEntity() instanceof  Manga)
+        if($args->getEntity() instanceof Manga)
         {
+            $this->cacheManager->remove($this->uploaderhelper->asset($args->getEntity(), 'imageFile'));
+        }elseif ($args->getEntity() instanceof ImagesManga)
+        {
+            $this->cacheManager->remove($this->uploaderhelper->asset($args->getEntity(), 'imageFile'));
+        }else{
             return;
         }
-        $this->cacheManager->remove($this->uploaderhelper->asset($args->getEntity(), 'imageFile'));
     }
 
     public function preUpdate(PreUpdateEventArgs $args)
     {
-        if(!$args->getEntity() instanceof  Manga)
+        if($args->getEntity() instanceof Manga)
         {
-            return;
-        }
+            if($args->getEntity()->getImageFile() instanceof UploadedFile)
+                $this->cacheManager->remove($this->uploaderhelper->asset($args->getEntity(),'imageFile'));
 
-        if($args->getEntity()->getImageFile() instanceof UploadedFile)
+        }elseif ($args->getEntity() instanceof ImagesManga)
         {
-            $this->cacheManager->remove($this->uploaderhelper->asset($args->getEntity(),'imageFile'));
+            if($args->getEntity() instanceof UploadedFile)
+                $this->cacheManager->remove($this->uploaderhelper->asset($args->getEntity(), 'imageFile'));
+
+        }else{
+            return;
         }
     }
 }

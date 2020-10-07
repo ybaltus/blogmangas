@@ -5,6 +5,7 @@ namespace App\Controller\Admin;
 use App\Entity\Manga;
 use App\Form\MangaType;
 use App\Repository\MangaRepository;
+use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
@@ -47,12 +48,25 @@ class AdminMangaController extends AbstractController
      */
     public function edit(Request $request, Manga $manga)
     {
+        $originalsImages = new ArrayCollection();
+        foreach ($manga->getImages() as $image)
+        {
+            $originalsImages->add($image);
+        }
+
         $form = $this->createForm(MangaType::class, $manga);
 
         $form->handleRequest($request);
-
         if($form->isSubmitted() && $form->isValid())
         {
+            foreach ($manga->getImages() as $image)
+            {
+                if($originalsImages->contains($image) === true && $image->getImageName() === null )
+                {
+                    $this->em->remove($image);
+                }
+            }
+
             $this->em->flush();
             $this->addFlash('success', 'Manga modifié avec succès.');
             return $this->redirectToRoute('admin_mangas_index');

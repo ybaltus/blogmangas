@@ -107,18 +107,25 @@
 
         </div>
         <div class="row">
-            <figure class="col-md-3 col-sm-6 col-xs-12 figure">
-                <img src="#" class="figure-img img-fluid rounded" alt="...">
-                <figcaption class="figure-caption text-right">Photo 1</figcaption>
-            </figure>
-            <figure class="col-md-3 col-sm-6 col-xs-12 figure">
-                <img src="#" class="figure-img img-fluid rounded" alt="...">
-                <figcaption class="figure-caption text-right">Photo 2</figcaption>
-            </figure>
-            <figure class="col-md-3 col-sm-6 col-xs-12 figure">
-                <img src="#" class="figure-img img-fluid rounded" alt="...">
-                <figcaption class="figure-caption text-right">Photo 3</figcaption>
-            </figure>
+            {% if manga.images|length > 0 %}
+                <div id="carouselExampleControls" class="offset-md-3 col-md-6 carousel slide " data-ride="carousel">
+                    <div class="carousel-inner">
+                        {% for key,image in manga.images %}
+                        <div class="carousel-item {% if key == 0 %} active {% endif %}">
+                            <img class="d-block w-100" src="{{ vich_uploader_asset(image, 'imageFile')| imagine_filter('mangas_thumb') }}" alt="{{ image.originalName }}">
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Précédent</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Suivant</span>
+                    </a>
+                </div>
+            {% endif %}
         </div>
     </div>
 {% endblock %}

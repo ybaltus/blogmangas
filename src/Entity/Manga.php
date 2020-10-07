@@ -47,7 +47,7 @@ class Manga
 
     /**
      * @var File|null
-     * @Vich\UploadableField(mapping="manga_image", fileNameProperty="fileName")
+     * @Vich\UploadableField(mapping="manga_thumb", fileNameProperty="fileName")
      * @Assert\Image(
      *  mimeTypes="image/jpeg"
      * )
@@ -144,11 +144,17 @@ class Manga
      */
     private $options;
 
+    /**
+     * @ORM\OneToMany(targetEntity=ImagesManga::class, mappedBy="manga", cascade={"persist", "remove"}, orphanRemoval=true)
+     */
+    private $images;
+
     public function __construct()
     {
         $this->created_at = new \DateTime('now');
         $this->animes = new ArrayCollection();
         $this->options = new ArrayCollection();
+        $this->images = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -409,6 +415,37 @@ class Manga
 
         if($imageFile !== null)
             $this->updated_at = new \DateTime('now');
+    }
+
+    /**
+     * @return Collection|ImagesManga[]
+     */
+    public function getImages(): Collection
+    {
+        return $this->images;
+    }
+
+    public function addImage(ImagesManga $image): self
+    {
+        if (!$this->images->contains($image)) {
+            $this->images[] = $image;
+            $image->setManga($this);
+        }
+
+        return $this;
+    }
+
+    public function removeImage(ImagesManga $image): self
+    {
+        if ($this->images->contains($image)) {
+            $this->images->removeElement($image);
+            // set the owning side to null (unless already changed)
+            if ($image->getManga() === $this) {
+                $image->setManga(null);
+            }
+        }
+
+        return $this;
     }
 
 }
