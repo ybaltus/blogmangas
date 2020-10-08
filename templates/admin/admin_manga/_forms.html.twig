@@ -47,22 +47,27 @@
 </div>
 <div class="row" id="div_animes" {% if manga.existEpisode == false%}hidden{% endif %}>
     {{ form_label(form.animes) }}
-    <div class="animes_current form-inline">
+    <div class=" col-md-12 animes_current">
         {% for anime in form.animes %}
-            <div class="form-group col-md-4">
-                {{ form_label(anime.current_episode) }}
-                {{ form_widget(anime.current_episode, {'attr' :{'class': 'col-md-6'}}) }}
+            <div class="anime">
+                <div id="manga_animes_{{ loop.index-1 }}">
+                    <div class="form-group col-md-4">
+                        {{ form_label(anime.current_episode) }}
+                        {{ form_widget(anime.current_episode, {'attr' :{'class': 'col-md-6'}}) }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {{ form_label(anime.max_episode) }}
+                        {{ form_widget(anime.max_episode, {'attr' :{'class': 'col-md-6'}}) }}
+                    </div>
+                    <div class="form-group col-md-4">
+                        {{ form_label(anime.season) }}
+                        {{ form_widget(anime.season, {'attr' :{'class': 'col-md-6'}}) }}
+                    </div>
+                </div>
             </div>
-            <div class="form-group col-md-4">
-                {{ form_label(anime.max_episode) }}
-                {{ form_widget(anime.max_episode, {'attr' :{'class': 'col-md-6'}}) }}
-            </div>
-            <div class="form-group col-md-4">
-                {{ form_label(anime.season) }}
-                {{ form_widget(anime.season, {'attr' :{'class': 'col-md-6'}}) }}
-            </div>
+            <hr>
         {% endfor %}
     </div>
-    <div class="animes_add" data-prototype="{{ form_widget(form.animes.vars.prototype)|e('html_attr') }}"></div>
+    <div class="col-md-12 animes_add" data-prototype="{{ form_widget(form.animes.vars.prototype)|e('html_attr') }}"></div>
 </div>
 {{ form_end(form) }}

@@ -7,6 +7,7 @@ const $divImages = $('#div_images');
 var $collectionAnimeHolder;
 var $collectionImageHolder;
 var $collectionImageHolderCurrent;
+var $collectionAnimeHolderCurrent;
 var $addEpisodeButton = $('<button type="button" class="btn btn-secondary add_anime_link" style="margin-bottom: 20px">Ajouter un épisode</button>');
 var $newLinkAnimeDiv = $('<div></div>').append($addEpisodeButton);
 var $addImageButton = $('<button type="button" class="btn btn-secondary add_image_link mt-3" style="margin-bottom: 20px">Ajouter une image</button>');
@@ -37,8 +38,9 @@ $(document).ready(function()
 
     //Anime Collection
     $collectionAnimeHolder = $('div.animes_add');
+    $collectionAnimeHolderCurrent = $('div.animes_current');
     $collectionAnimeHolder.append($newLinkAnimeDiv);
-    $collectionAnimeHolder.data('index', $collectionAnimeHolder.find('.anime').length);
+    $collectionAnimeHolder.data('index', ($collectionAnimeHolderCurrent.find('.anime').length + $collectionAnimeHolder.find('.anime').length));
     $addEpisodeButton.on('click', function(e) {
         e.preventDefault()
         addEpisodeForm($collectionAnimeHolder, $newLinkAnimeDiv);
@@ -73,10 +75,10 @@ $(document).ready(function()
         newForm = newForm.replace(/__name__label__/g, index);
         newForm = newForm.replace(/__name__/g, index);
         $collectionAnimeHolder.data('index', index + 1);
-        let $newFormDiv = $('<div class="anime"></div>').append(newForm).append('<hr>');
+        let $newFormDiv = $('<div class="anime"></div>').append(newForm);
         $newFormDiv.find('#manga_animes_'+index).find('.form-group').addClass('col-md-4');
-        $newFormDiv.find('#manga_animes_'+index).attr('class', 'form-inline');
-        $newFormDiv.find('#manga_animes_'+index).find('.form-control').attr('class', 'col-md-6');
+        $newFormDiv.find('#manga_animes_'+index).find('.form-control').addClass('col-md-6');
+        $newFormDiv.append('<hr>');
         $newLinkAnimeDiv.before($newFormDiv);
         addAnimeFormDeleteLink($newFormDiv);
     }
