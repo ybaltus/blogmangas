@@ -9,3 +9,13 @@ home:
 mangas_list:
   path: /mangas_list
   controller: App\Controller\MangasController::list
+
+mangas_add:
+  path: /mangas_add
+  controller: App\Controller\MangasController::addManga
+
+mangas_view:
+  path: /mangas_view/{title_slug}/{id}
+  controller: App\Controller\MangasController::view
+  requirements:
+    title_slug: '[a-z0-9\-]*'

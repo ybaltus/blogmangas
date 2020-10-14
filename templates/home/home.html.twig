@@ -4,7 +4,27 @@
     <div class="jumbotron text-center">
         <h1>Le blog mangas</h1>
     </div>
-<div class="container">
-
-</div>
+    <div class="container">
+        <h2>Les derniers mangas</h2>
+        <div class="row flex">
+            {% for manga in lastMangas %}
+                <div class="col-md-3 col-sm-6 col-xs-12 text-center">
+                    <div class="card" style="width: 18rem;">
+                        {% if manga.fileName %}
+                            <img src="{{ vich_uploader_asset(manga, 'imageFile') | imagine_filter('mangas_thumb')}}" class="card-img-top" alt="{{ manga.titleSlug }}">
+                        {% else %}
+                            <img src="{{ 'images/mangas/empty.jpg' | imagine_filter('mangas_thumb')}}" class="card-img-top" alt="{{ manga.titleSlug }}">
+                        {% endif %}
+                        <div class="card-body">
+                            <h5 class="card-title">{{ manga.title }}</h5>
+                            <h6 class="card-subtitle mb-2 text-muted">{{ manga.typeName|capitalize }} - {{ manga.year }}</h6>
+                            <p class="card-text">{{ manga.author }}</p>
+                            <p class="card-text">{{ manga.country }}</p>
+                            <a href="{{ path('mangas_view', {'title_slug':manga.titleSlug, 'id': manga.id}) }}" class="btn btn-primary">Consulter</a>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
 {% endblock%}

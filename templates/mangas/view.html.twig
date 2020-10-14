@@ -1,0 +1,136 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Manga: {{ manga.title }}{% endblock %}
+
+{% block body %}
+    <div class="jumbotron jumbotron-fluid">
+        <div class="container">
+            {% for message in app.flashes('success') %}
+                <div class="alert alert-success">
+                    {{ message }}
+                </div>
+            {% endfor %}
+            {% if not form.vars.valid %}
+                <div class="alert alert-error">
+                    Erreur dans les saisies du formulaire de contact.
+                </div>
+            {% endif %}
+            <div class="row">
+                <div class="col-8">
+                    {% if manga.fileName %}
+                        <img src="{{ vich_uploader_asset(manga, 'imageFile') | imagine_filter('mangas_thumb')}}" class="card-img-top" alt="{{ manga.titleSlug }}">
+                    {% else %}
+                        <img src="{{ 'images/mangas/empty.jpg' | imagine_filter('mangas_thumb')}}" class="card-img-top" alt="{{ manga.titleSlug }}">
+                    {% endif %}
+                </div>
+                <div class="col-4">
+                    <h1 class="display-4">{{manga.title}}</h1>
+                    <h6 class="text-muted">{{ manga.typeName|capitalize }} - {{ manga.year }}</h6>
+                    {% if manga.options %}
+                        {% for key,option in manga.options %}
+                            <h5 class="badge badge-secondary">{{ option.name }}</h5>
+                        {% endfor %}
+                    {% endif %}
+                    <p>Auteur: {{ manga.author }}</p>
+                    <p>Pays: {{ manga.country }}</p>
+                    <a href="#" class="btn btn-primary" id="contactBtn" {% if form.vars.submitted %}style="display: none" {% endif %}>Contacter</a>
+                    <div id="contactForm" class="mt-4" {% if not form.vars.submitted %}style="display: none" {% endif %}>
+                        {{ form_start(form) }}
+                        <div class="row">
+                            <div class="col">{{ form_row(form.firstname) }}</div>
+                            <div class="col">{{ form_row(form.lastname) }}</div>
+                        </div>
+                        <div class="row">
+                            <div class="col">{{ form_row(form.phone) }}</div>
+                            <div class="col">{{ form_row(form.email) }}</div>
+                        </div>
+                        {{ form_rest(form) }}
+                        <div class="row">
+                            <div class="form-group">{{ form_widget(form.submit) }}</div>
+                        </div>
+                        {{ form_end(form) }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <h2>Description: </h2>
+            <p class="text-justify">{{ manga.description }}</p>
+        </div>
+        <div class="row">
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <h3>Épisodes</h3>
+                <table class="table table-dark table-sm">
+                    <thead>
+                    <tr>
+                        <th scope="col">#</th>
+                        {% if manga.animes|length >0  %}
+                            {% for anime in manga.animes %}
+                                <th scope="col">Saison {{ anime.season }}</th>
+                            {% endfor %}
+                        {% else %}
+                            <th scope="col">Aucune saison</th>
+                        {% endif %}
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr>
+                        <th scope="row">Épisodes</th>
+                        {% if manga.animes|length > 0 %}
+                            {% for anime in manga.animes %}
+                                <td>{{ anime.currentEpisode }} / {{ anime.maxEpisode }}</td>
+                            {% endfor %}
+                        {% else %}
+                            <td>Aucun épidode</td>
+                        {% endif %}
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="col-md-6 col-sm-6 col-xs-12">
+                <h3>Chapitres</h3>
+                <table class="table table-dark table-sm">
+                    <tbody>
+                    <tr>
+                        <th scope="row">Chapitres</th>
+                        {% if manga.scans %}
+                            <td>{{ manga.scans.currentChapter }} / {{ manga.scans.maxChapter }}</td>
+                        {% else %}
+                            <td>Aucun</td>
+                        {% endif %}
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <div class="row">
+            {% if manga.images|length > 0 %}
+                <div id="carouselExampleControls" class="offset-md-3 col-md-6 carousel slide " data-ride="carousel">
+                    <div class="carousel-inner">
+                        {% for key,image in manga.images %}
+                        <div class="carousel-item {% if key == 0 %} active {% endif %}">
+                            <img class="d-block w-100" src="{{ vich_uploader_asset(image, 'imageFile')| imagine_filter('mangas_thumb') }}" alt="{{ image.originalName }}">
+                        </div>
+                        {% endfor %}
+                    </div>
+                    <a class="carousel-control-prev" href="#carouselExampleControls" role="button" data-slide="prev">
+                        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Précédent</span>
+                    </a>
+                    <a class="carousel-control-next" href="#carouselExampleControls" role="button" data-slide="next">
+                        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                        <span class="sr-only">Suivant</span>
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+{% endblock %}
+
+{% block javascripts_additionals %}
+    {# Script fmanga.js #}
+    {{ encore_entry_script_tags('manga') }}
+{% endblock %}
