@@ -10,13 +10,13 @@
                 <a class="nav-link {% if app.request.get('_route') == 'mangas_list' %}active{% endif %}developement" href="{{ path('mangas_list') }}">Liste des mangas </a>
             </li>
         </ul>
-        <ul class="navbar-nav mr-auto">
-            <li class="nav-item">
-                <a class="nav-link {% if app.request.get('_route') == 'admin_mangas_index' %}active{% endif %}developement" href="{{ path('admin_mangas_index') }}">Admin </a>
-            </li>
-        </ul>
+{#        <ul class="navbar-nav mr-auto">#}
+{#            <li class="nav-item">#}
+{#                <a class="nav-link {% if app.request.get('_route') == 'admin_mangas_index' %}active{% endif %}developement" href="{{ path('admin_mangas_index') }}">Admin </a>#}
+{#            </li>#}
+{#        </ul>#}
         {% if app.user %}
-            <ul class="navbar-nav mr-auto">
+            <ul class="navbar-nav my-lg-0">
                 <li class="nav-item">
                     <a class="nav-link " href="{{ path('logout') }}">Se déconnecter</a>
                 </li>
