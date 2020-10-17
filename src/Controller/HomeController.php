@@ -16,4 +16,9 @@ class HomeController extends AbstractController
             "lastMangas" => $lastMangas
         ));
     }
+
+    public function contact()
+    {
+        return $this->render('home/contact.html.twig');
+    }
 }
