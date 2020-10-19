@@ -30,6 +30,17 @@ services:
     # add more service definitions when explicit configuration is needed
     # please note that last definitions always *replace* previous ones
 
+    # Configure twig_cache_extension
     App\EventSubscriber\ImageCacheSubscriber:
         tags:
             - { name: 'doctrine.event_subscriber'}
+
+    Twig\CacheExtension\CacheProviderInterface:
+        class: Twig\CacheExtension\CacheProvider\PsrCacheAdapter
+
+    Twig\CacheExtension\CacheStrategyInterface:
+        class: Twig\CacheExtension\CacheStrategy\LifetimeCacheStrategy
+
+    Twig\CacheExtension\Extension:
+        tags:
+            - { name: 'twig.extension'}
