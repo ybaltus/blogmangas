@@ -11,6 +11,7 @@ use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use YBaltus\RecaptchaBundle\Type\RecaptchaSubmitType;
 
 class ContactType extends AbstractType
 {
@@ -24,11 +25,18 @@ class ContactType extends AbstractType
             ))
             ->add('email', EmailType::class)
             -> add('message', TextareaType::class)
-            ->add('submit', SubmitType::class, array(
-                'label' => "Save",
+//            ->add('submit', SubmitType::class, array(
+//                'label' => "Save",
+//                'attr' => array(
+//                    'class' => 'btn btn-primary'
+//                )
+//            ))
+            ->add('captcha',  RecaptchaSubmitType::class, array(
+                'label'=> "Save",
                 'attr' => array(
-                    'class' => 'btn btn-primary'
-                )
+                    'class' => 'btn btn-primary '
+                ),
+
             ))
         ;
     }
