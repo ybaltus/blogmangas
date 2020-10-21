@@ -1,0 +1,13 @@
+services:
+  recaptcha.type:
+    class: YBaltus\RecaptchaBundle\Type\RecaptchaSubmitType
+    tags: ['form.type']
+    arguments:
+      $siteKey: "%recaptcha.siteKey%"
+
+  recaptcha.validator:
+    class: YBaltus\RecaptchaBundle\Constraints\RecaptchaValidator
+    tags: ['validator.constraint_validator']
+    arguments:
+      $recaptchaSecretKey: "%recaptcha.secretKey%"
+    autowire: true

@@ -105,6 +105,18 @@
     "fzaninotto/faker": {
         "version": "v1.9.1"
     },
+    "google/recaptcha": {
+        "version": "1.1",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.1",
+            "ref": "d087df3e087f50da3955f2def05079380da5894b"
+        },
+        "files": [
+            "config/packages/google_recaptcha.yaml"
+        ]
+    },
     "imagine/imagine": {
         "version": "1.2.3"
     },
@@ -140,7 +152,7 @@
         "version": "2.2.3"
     },
     "php": {
-        "version": "7.3"
+        "version": "7.4"
     },
     "phpdocumentor/reflection-common": {
         "version": "2.2.0"
@@ -578,6 +590,9 @@
     },
     "symfony/yaml": {
         "version": "v4.4.11"
+    },
+    "twig/cache-extension": {
+        "version": "v1.5.0"
     },
     "twig/extra-bundle": {
         "version": "v3.0.5"
