@@ -9,8 +9,7 @@ Pour lancer le projet vous aurez besoin de la configuration suivante :
 * [Php](https://www.php.net/manual/fr/install.php) >= 7.2
 * Nodejs + NPM ou Yarn
 
- [Aide Linux](https://www.digitalocean.com/community/tutorials/comment-installer-la-pile-linux-apache-mysql-php-lamp-sur-un-serveur-ubuntu-18-04-fr)
-  ou [Aide Mac](https://documentation.mamp.info/en/MAMP-Mac/Installation/) 
+ [Aide Linux](https://codereviewvideos.com/course/symfony-deployment/video/symfony-4-lamp-stack)
   
 # Stack technique
 * [Symfony 4.4](https://symfony.com/doc/4.4/setup.html)
@@ -25,13 +24,52 @@ Pour lancer le projet vous aurez besoin de la configuration suivante :
 
 # Pour initialiser le projet
 
-#### Créer son fichier .env.local qui contiendra les informations de sa base de données. Sinon les commandes suivantes ne pourront pas fonctionner !
+#### Créer son fichier .env.local si DEV ou éditer le fichier .env si PROD qui contiendra les informations de sa base de données. Sinon les commandes suivantes ne pourront pas fonctionner ! 
+Exemple: DATABASE_URL=mysql://db_user:db_password$@127.0.0.1:3306/blog_mangas?serverVersion=10.2.10-MariaDB
 
 ```
-composer install
+(option) sudo rm composer.lock symfony.lock
+EnvDev: composer install ou EnvProd: composer install --no-dev --optimize-autoloader
+Prod: APP_ENV=prod APP_DEBUG=0 php bin/console cache:clear
 php bin/console doctrine:database:create
 php bin/console doctrine:migrations:migrate
 php bin/console doctrine:fixtures:load
+npm install --force ou yarn install --force
 npm run build ou yarn build
+EnvProd: Configurer votre vHost
 ```
 > Pour les tests avec phpunit il faut configuer les informations de la base de données dans le fichier .env.test
+
+```
+Exemple de virtualhost
+
+<VirtualHost *:80>
+    ServerName blogmangas.test.com
+    ServerAlias blogmangas.test.com
+
+    DocumentRoot "/var/www/html/blogmangas/public/"
+        DirectoryIndex index.php
+    <Directory "/var/www/html/blogmangas/public/">
+        AllowOverride All
+        Order Allow,Deny
+        Allow from All
+        <IfModule mod_rewrite.c>
+            Options -MultiViews
+            RewriteEngine On
+            RewriteCond %{REQUEST_FILENAME} !-f
+            RewriteRule ^(.*)$ index.php [QSA,L]
+        </IfModule>
+    </Directory>
+
+    # uncomment the following lines if you install assets as symlinks
+    # or run into problems when compiling LESS/Sass/CoffeeScript assets
+    # <Directory /var/www/project>
+    #     Options FollowSymlinks
+    # </Directory>
+
+    ErrorLog /var/log/httpd/blogmangas_error.log
+    CustomLog /var/log/httpd/blogmangas_access.log combined
+</VirtualHost>
+
+```
+
