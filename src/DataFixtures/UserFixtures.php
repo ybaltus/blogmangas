@@ -29,8 +29,8 @@ class UserFixtures extends Fixture
     private function createAdmin():User
     {
         $userAdmin = new User();
-        $userAdmin->setUsername("yannisAdmin");
-        $userAdmin->setEmail("yannis.baltus@outlook.com");
+        $userAdmin->setUsername("admin");
+        $userAdmin->setEmail("admin.@outlook.com");
         $userAdmin->setPassword($this->passwordEncoder->encodePassword($userAdmin, "admin"));
         $userAdmin->setRoles(['ROLE_ADMIN']);
         return $userAdmin;
